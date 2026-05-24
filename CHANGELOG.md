@@ -6,6 +6,29 @@ Project versioning adheres to [Semantic Versioning](http://semver.org/).
 Commit convention is based on [Conventional Commits](http://conventionalcommits.org).
 Change log format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.8.7](https://github.com/ikunshare/ikun-music-mobile/compare/v1.8.5...v1.8.7) - 2026-01-13
+
+### 新增
+
+- 翻译
+
+### 修复
+
+- 修复MG源歌单加载失败（#913）
+- 修复MG源评论加载失败（#914）
+
+## [1.8.5](https://github.com/ikunshare/ikun-music-mobile/compare/v1.8.4...v1.8.5) - 2025-11-25
+
+### 修复
+
+- 理论解决封面下载不完整
+
+## [1.8.4](https://github.com/ikunshare/ikun-music-mobile/compare/v1.8.3...v1.8.4) - 2025-11-22
+
+### 修复
+
+- 一个小问题
+
 ## [1.8.3](https://github.com/ikunshare/ikun-music-mobile/compare/v1.8.2...v1.8.3) - 2025-11-01
 
 ### 修复
@@ -26,7 +49,7 @@ Change log format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### 新增
 
 - 新增「设置 → 基本设置 → 允许通过底栏进度条调整播放进度」设置（#778）
-   *默认为原来的启用状态，若你觉得在进入播放详情页时会误触调整进度，则可以将其关闭*
+  _默认为原来的启用状态，若你觉得在进入播放详情页时会误触调整进度，则可以将其关闭_
 - 新增 Any Listen 歌词标签数据读取与播放
 - 编辑本地歌曲的标签信息时，添加 Any Listen 歌词标签数据生成
 

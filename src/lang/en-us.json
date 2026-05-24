@@ -568,5 +568,10 @@
   "hires": "24-Bit Hires",
   "atmos": "Atmos",
   "atmos_plus": "Atmos 2.0",
-  "master": "Master"
+  "master": "Master",
+  "greeting_late_night": "Late at night, the night is just a habit that hasn't changed yet.",
+  "greeting_night": "Nighttime, a quiet corner, quietly listening to the nocturne.",
+  "greeting_noon": "Good afternoon, accompanied by familiar music, listening to the moving melody.",
+  "greeting_morning": "Good morning, the soft morning sunlight, is that you smiling?",
+  "greeting_evening": "Evening, like a gentle breeze intoxicating the sunset, an unexpected smile and a glance back."
 }

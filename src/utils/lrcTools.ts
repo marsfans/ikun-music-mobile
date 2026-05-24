@@ -5,9 +5,7 @@ const t_rxp_1 = /^0+(\d+)/
 const t_rxp_2 = /:0+(\d+)/g
 const t_rxp_3 = /\.0+(\d+)/
 const formatTimeLabel = (label: string) => {
-  return label.replace(t_rxp_1, '$1')
-    .replace(t_rxp_2, ':$1')
-    .replace(t_rxp_3, '.$1')
+  return label.replace(t_rxp_1, '$1').replace(t_rxp_2, ':$1').replace(t_rxp_3, '.$1')
 }
 
 const filterExtendedLyricLabel = (lrcTimeLabels: Set<string>, extendedLyric: string) => {
@@ -24,7 +22,7 @@ const filterExtendedLyricLabel = (lrcTimeLabels: Set<string>, extendedLyric: str
     let times = timeField.match(timeExp)
     if (times == null) continue
 
-    const newTimes = times.filter(time => {
+    const newTimes = times.filter((time) => {
       const timeStr = formatTimeLabel(time)
       return lrcTimeLabels.has(timeStr)
     })
@@ -78,7 +76,12 @@ const buildAwlyric = (lrcData: LX.Music.LyricInfo) => {
   return lrc.length ? `[awlrc:${lrc.join(',')}]` : ''
 }
 
-export const buildLyrics = (lrcData: LX.Music.LyricInfo, downloadAwlrc: boolean, downloadTlrc: boolean, downloadRlrc: boolean) => {
+export const buildLyrics = (
+  lrcData: LX.Music.LyricInfo,
+  downloadAwlrc: boolean,
+  downloadTlrc: boolean,
+  downloadRlrc: boolean
+) => {
   if (!lrcData.tlyric && !lrcData.rlyric && !lrcData.lxlyric) return lrcData.lyric
 
   const lrcTimeLabels = parseLrcTimeLabel(lrcData.lyric)

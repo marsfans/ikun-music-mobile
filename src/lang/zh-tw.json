@@ -541,5 +541,10 @@
   "hires": "Hires 无损24-Bit",
   "atmos": "臻品音質",
   "atmos_plus": "臻品音質 2.0",
-  "master": "臻品母帶"
+  "master": "臻品母帶",
+  "greeting_late_night": "深夜，現在的夜，熬得只是還未改變的習慣",
+  "greeting_night": "夜晚，一個安靜的角落，靜靜地聆聽夜曲",
+  "greeting_noon": "午好，伴隨著熟悉的樂曲，聆聽著動人的旋律",
+  "greeting_morning": "早安，清晨熹微的陽光，是你在微笑嗎",
+  "greeting_evening": "夕暮，似清風醉晚霞，不經意間盈笑回眸"
 }

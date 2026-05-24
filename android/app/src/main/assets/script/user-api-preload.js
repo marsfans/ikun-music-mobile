@@ -204,10 +204,10 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
       requestInfo,
     })
 
-    nativeCall(NATIVE_EVENTS_NAMES.request, {requestKey, url, options})
+    nativeCall(NATIVE_EVENTS_NAMES.request, { requestKey, url, options })
     return requestInfo
   }
-  const handleNativeResponse = ({requestKey, error, response}) => {
+  const handleNativeResponse = ({ requestKey, error, response }) => {
     const targetRequest = requestQueue.get(requestKey)
     if (!targetRequest) return
     requestQueue.delete(requestKey)
@@ -217,7 +217,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
     else targetRequest.callback(new Error(error), null)
   }
 
-  const handleRequest = ({requestKey, data}) => {
+  const handleRequest = ({ requestKey, data }) => {
     // console.log(data)
     if (!events.request)
       return nativeCall(NATIVE_EVENTS_NAMES.response, {
@@ -227,7 +227,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
       })
     try {
       events.request
-        .call(globalThis.lx, {source: data.source, action: data.action, info: data.info})
+        .call(globalThis.lx, { source: data.source, action: data.action, info: data.info })
         .then((response) => {
           let result
           switch (data.action) {
@@ -268,7 +268,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
               }
               break
           }
-          nativeCall(NATIVE_EVENTS_NAMES.response, {requestKey, status: true, result})
+          nativeCall(NATIVE_EVENTS_NAMES.response, { requestKey, status: true, result })
         })
         .catch((err) => {
           // console.log('handleRequest err', err)
@@ -368,7 +368,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
       })
       return
     }
-    nativeCall(NATIVE_EVENTS_NAMES.init, {info: sourceInfo, status: true})
+    nativeCall(NATIVE_EVENTS_NAMES.init, { info: sourceInfo, status: true })
   }
   const handleShowUpdateAlert = (data, resolve, reject) => {
     if (!data || typeof data != 'object') return reject(new Error('parameter format error.'))
@@ -512,8 +512,8 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
 
   globalThis.lx = {
     EVENT_NAMES,
-    request(url, {method = 'get', timeout, headers, body, form, formData, binary}, callback) {
-      let options = {headers, binary: binary === true}
+    request(url, { method = 'get', timeout, headers, body, form, formData, binary }, callback) {
+      let options = { headers, binary: binary === true }
       // let data
       // if (body) {
       //   data = body
@@ -531,7 +531,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
 
       let request = sendNativeRequest(
         url,
-        {method, body, form, formData, ...options},
+        { method, body, form, formData, ...options },
         (err, resp) => {
           if (err) {
             callback(err, null, null)
@@ -658,7 +658,7 @@ globalThis.lx_setup = (key, id, name, description, version, author, homepage, ra
         if (freezedObj.has(obj)) return
         // Object.freeze(obj)
         freezedObj.add(obj)
-        for (const [name, {...config}] of Object.entries(Object.getOwnPropertyDescriptors(obj))) {
+        for (const [name, { ...config }] of Object.entries(Object.getOwnPropertyDescriptors(obj))) {
           if (!excludes.includes(config.value)) {
             if (config.writable) config.writable = false
             if (config.configurable) config.configurable = false

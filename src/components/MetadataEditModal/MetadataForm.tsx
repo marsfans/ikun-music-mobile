@@ -151,18 +151,29 @@ export default forwardRef<MetadataFormType, {}>((props, ref) => {
         source: 'local',
       },
       isRefresh: false,
-    }).then(async(lrcData) => {
-      if (isUnmounted.current || path != filePath.current) return
-      toast(t('metadata_edit_modal_form_match_lyric_success'))
-      setData(data => {
-        return { ...data, lyric: buildLyrics(lrcData, true, settingState.setting['player.isShowLyricTranslation'], settingState.setting['player.isShowLyricRoma']) }
-      })
-    }).catch(() => {
-      if (isUnmounted.current || path != filePath.current) return
-      toast(t('metadata_edit_modal_form_match_lyric_failed'))
-    }).finally(() => {
-      matcheingLrc.delete(path)
     })
+      .then(async (lrcData) => {
+        if (isUnmounted.current || path != filePath.current) return
+        toast(t('metadata_edit_modal_form_match_lyric_success'))
+        setData((data) => {
+          return {
+            ...data,
+            lyric: buildLyrics(
+              lrcData,
+              true,
+              settingState.setting['player.isShowLyricTranslation'],
+              settingState.setting['player.isShowLyricRoma']
+            ),
+          }
+        })
+      })
+      .catch(() => {
+        if (isUnmounted.current || path != filePath.current) return
+        toast(t('metadata_edit_modal_form_match_lyric_failed'))
+      })
+      .finally(() => {
+        matcheingLrc.delete(path)
+      })
   }, [data.albumName, data.name, data.singer, t])
   const handleUpdatePic = useCallback((path: string) => {
     setData((data) => {

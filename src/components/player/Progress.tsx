@@ -81,11 +81,16 @@ const PreassBar = memo(
       })
     ).current
 
-  return <View onLayout={onLayout} style={styles.pressBar} {...panResponder.panHandlers} />
-})
+    return <View onLayout={onLayout} style={styles.pressBar} {...panResponder.panHandlers} />
+  }
+)
 
-
-export const ProgressPlain = ({ progress, duration, buffered, paddingTop }: {
+export const ProgressPlain = ({
+  progress,
+  duration,
+  buffered,
+  paddingTop,
+}: {
   progress: number
   duration: number
   buffered: number
@@ -106,7 +111,16 @@ export const ProgressPlain = ({ progress, duration, buffered, paddingTop }: {
       <View style={{ flex: 1 }}>
         <DefaultBar />
         <BufferedBar progress={buffered} />
-        <View style={{ ...styles.progressBar, backgroundColor: theme['c-primary-alpha-900'], width: progressStr, position: 'absolute', left: 0, top: 0 }} />
+        <View
+          style={{
+            ...styles.progressBar,
+            backgroundColor: theme['c-primary-alpha-900'],
+            width: progressStr,
+            position: 'absolute',
+            left: 0,
+            top: 0,
+          }}
+        />
       </View>
       <View style={styles.pressBar} />
     </View>

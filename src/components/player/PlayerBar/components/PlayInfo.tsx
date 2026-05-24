@@ -45,9 +45,15 @@ export default ({ isHome }: { isHome: boolean }) => {
   const buffered = useBufferProgress()
   const allowProgressBarSeek = useSettingValue('common.allowProgressBarSeek')
 
-  usePageVisible([COMPONENT_IDS.home], useCallback((visible) => {
-    if (isHome) setAutoUpdate(visible)
-  }, [isHome]))
+  usePageVisible(
+    [COMPONENT_IDS.home],
+    useCallback(
+      (visible) => {
+        if (isHome) setAutoUpdate(visible)
+      },
+      [isHome]
+    )
+  )
 
   return (
     <View style={stylesRaw.container}>
@@ -64,11 +70,21 @@ export default ({ isHome }: { isHome: boolean }) => {
         <PlayTimeMax timeStr={maxPlayTimeStr} />
       </View>
       <View style={[StyleSheet.absoluteFill, stylesRaw.progress]}>
-        {
-          allowProgressBarSeek
-            ? <Progress progress={progress} duration={maxPlayTime} buffered={buffered} paddingTop={PADDING_TOP_PROGRESS} />
-            : <ProgressPlain progress={progress} duration={maxPlayTime} buffered={buffered} paddingTop={PADDING_TOP_PROGRESS} />
-        }
+        {allowProgressBarSeek ? (
+          <Progress
+            progress={progress}
+            duration={maxPlayTime}
+            buffered={buffered}
+            paddingTop={PADDING_TOP_PROGRESS}
+          />
+        ) : (
+          <ProgressPlain
+            progress={progress}
+            duration={maxPlayTime}
+            buffered={buffered}
+            paddingTop={PADDING_TOP_PROGRESS}
+          />
+        )}
       </View>
     </View>
   )

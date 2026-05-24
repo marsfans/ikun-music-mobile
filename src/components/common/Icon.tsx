@@ -20,7 +20,6 @@ import { StyleSheet, type StyleProp, type TextStyle } from 'react-native'
 // import IconZocial from 'react-native-vector-icons/Zocial'
 // import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
-
 const IcoMoon = createIconSetFromIcoMoon(icoMoonConfig)
 
 // https://oblador.github.io/react-native-vector-icons/

@@ -231,14 +231,16 @@ export const parseLyric = (lrc: string): LX.Music.LyricInfo => {
     return lyricInfo
   }
   let parsedInfo: Partial<LX.Music.LyricInfo> = {}
-  let lyric = lrc.replace(tagRxp, (_: string, p1: string) => {
-    parsedInfo = parse(p1)
-    return ''
-  }).trim()
+  let lyric = lrc
+    .replace(tagRxp, (_: string, p1: string) => {
+      parsedInfo = parse(p1)
+      return ''
+    })
+    .trim()
   return { lyric, ...parsedInfo }
 }
 
-const getMusicFileLyric = async(filePath: string) => {
+const getMusicFileLyric = async (filePath: string) => {
   const lyric = await readLyric(filePath).catch(() => null)
   if (!lyric) return null
   return parseLyric(lyric)

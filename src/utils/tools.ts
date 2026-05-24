@@ -109,8 +109,8 @@ export const requestStoragePermission = async () => {
     return granteds.every((r) => r === PermissionsAndroid.RESULTS.GRANTED)
       ? true
       : granteds.includes(PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN)
-        ? null
-        : false
+      ? null
+      : false
     // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
     //   console.log('You can use the storage')
     // } else {
@@ -275,6 +275,23 @@ export const tipDialog = async ({
   })
 }
 
+export const getTimeGreeting = () => {
+  const now = new Date()
+  const hours = now.getHours()
+  if (hours >= 0 && hours <= 4) {
+    return global.i18n.t('greeting_late_night')
+  } else if (hours >= 5 && hours <= 10) {
+    return global.i18n.t('greeting_morning')
+  } else if (hours >= 11 && hours <= 13) {
+    return global.i18n.t('greeting_noon')
+  } else if (hours >= 14 && hours <= 17) {
+    return global.i18n.t('greeting_evening')
+  } else if (hours >= 18 && hours <= 23) {
+    return global.i18n.t('greeting_night')
+  }
+  return ''
+}
+
 export const clipboardWriteText = (str: string) => {
   Clipboard.setString(str)
 }
@@ -377,7 +394,7 @@ export const shareMusic = (
   const detailUrl =
     musicInfo.source == 'local'
       ? ''
-      : (musicSdk[musicInfo.source]?.getMusicDetailPageUrl(toOldMusicInfo(musicInfo)) ?? '')
+      : musicSdk[musicInfo.source]?.getMusicDetailPageUrl(toOldMusicInfo(musicInfo)) ?? ''
   const musicTitle = downloadFileName.replace('歌名', name).replace('歌手', singer)
   switch (shareType) {
     case 'system':

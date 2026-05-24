@@ -3,24 +3,29 @@ import RNFetchBlob from 'rn-fetch-blob'
 import playerState from '@/store/player/state'
 import settingState from '@/store/setting/state'
 
-import {addListMusics, removeListMusics, updateListMusicPosition, updateListMusics,} from '@/core/list'
-import {playList, playListById, playNext} from '@/core/player/player'
-import {addTempPlayList} from '@/core/player/tempPlayList'
+import {
+  addListMusics,
+  removeListMusics,
+  updateListMusicPosition,
+  updateListMusics,
+} from '@/core/list'
+import { playList, playListById, playNext } from '@/core/player/player'
+import { addTempPlayList } from '@/core/player/tempPlayList'
 
-import {similar, sortInsert, toOldMusicInfo} from '@/utils'
-import {confirmDialog, openUrl, requestStoragePermission, shareMusic, toast} from '@/utils/tools'
-import {addDislikeInfo, hasDislike} from '@/core/dislikeList'
+import { similar, sortInsert, toOldMusicInfo } from '@/utils'
+import { confirmDialog, openUrl, requestStoragePermission, shareMusic, toast } from '@/utils/tools'
+import { addDislikeInfo, hasDislike } from '@/core/dislikeList'
 
-import {type SelectInfo} from './ListMenu'
-import {type Metadata} from '@/components/MetadataEditModal'
+import { type SelectInfo } from './ListMenu'
+import { type Metadata } from '@/components/MetadataEditModal'
 
-import {getFileExtension, getFileExtensionFromUrl} from './download/utils'
-import {mergeLyrics} from './download/lrcTool'
+import { getFileExtension, getFileExtensionFromUrl } from './download/utils'
+import { mergeLyrics } from './download/lrcTool'
 
-import {getListMusicSync} from '@/utils/listManage'
-import {getLyricInfo, getMusicUrl, getPicUrl} from '@/core/music/online'
-import {writeLyric, writeMetadata, writePic} from '@/utils/localMediaMetadata'
-import {downloadFile} from '@/utils/fs'
+import { getListMusicSync } from '@/utils/listManage'
+import { getLyricInfo, getMusicUrl, getPicUrl } from '@/core/music/online'
+import { writeLyric, writeMetadata, writePic } from '@/utils/localMediaMetadata'
+import { downloadFile } from '@/utils/fs'
 
 export const handlePlay = (listId: SelectInfo['listId'], index: SelectInfo['index']) => {
   void playList(listId, index)
@@ -32,10 +37,10 @@ export const handlePlayLater = (
   onCancelSelect: () => void
 ) => {
   if (selectedList.length) {
-    addTempPlayList(selectedList.map((s) => ({listId, musicInfo: s})))
+    addTempPlayList(selectedList.map((s) => ({ listId, musicInfo: s })))
     onCancelSelect()
   } else {
-    addTempPlayList([{listId, musicInfo}])
+    addTempPlayList([{ listId, musicInfo }])
   }
 }
 
@@ -47,7 +52,7 @@ export const handleRemove = (
 ) => {
   if (selectedList.length) {
     void confirmDialog({
-      message: global.i18n.t('list_remove_music_multi_tip', {num: selectedList.length}),
+      message: global.i18n.t('list_remove_music_multi_tip', { num: selectedList.length }),
       confirmButtonText: global.i18n.t('list_remove_tip_button'),
     }).then((isRemove) => {
       if (!isRemove) return
@@ -151,16 +156,16 @@ export const handleDislikeMusic = async (musicInfo: SelectInfo['musicInfo']) => 
   const confirm = await confirmDialog({
     message: musicInfo.singer
       ? global.i18n.t('lists_dislike_music_singer_tip', {
-        name: musicInfo.name,
-        singer: musicInfo.singer,
-      })
-      : global.i18n.t('lists_dislike_music_tip', {name: musicInfo.name}),
+          name: musicInfo.name,
+          singer: musicInfo.singer,
+        })
+      : global.i18n.t('lists_dislike_music_tip', { name: musicInfo.name }),
     cancelButtonText: global.i18n.t('cancel_button_text_2'),
     confirmButtonText: global.i18n.t('confirm_button_text'),
     bgClose: false,
   })
   if (!confirm) return
-  await addDislikeInfo([{name: musicInfo.name, singer: musicInfo.singer}])
+  await addDislikeInfo([{ name: musicInfo.name, singer: musicInfo.singer }])
   toast(global.i18n.t('lists_dislike_music_add_tip'))
   if (hasDislike(playerState.playMusicInfo.musicInfo)) {
     void playNext(true)
@@ -285,10 +290,18 @@ export const handleDownload = async (musicInfo: LX.Music.MusicInfo, quality: LX.
           console.log(picUrl)
           const extension = getFileExtensionFromUrl(picUrl)
           const picPath = `${downloadDir}/temp_${musicInfo.id}.${extension}`
-          downloadFile(picUrl, picPath)
-          await writePic(filePath, picPath)
-          await RNFetchBlob.fs.unlink(picPath)
-          toast(`写入封面成功!`, 'short')
+          downloadFile(picUrl, picPath).promise?.then(async (result) => {
+            if (
+              result.statusCode == 200 &&
+              (await RNFetchBlob.fs.stat(picPath)).size == result.bytesWritten
+            ) {
+              await writePic(filePath, picPath)
+              await RNFetchBlob.fs.unlink(picPath)
+              toast(`写入封面成功!`, 'short')
+            } else {
+              throw new Error('下载封面失败' + result.statusCode)
+            }
+          })
         } catch (err) {
           console.log(err)
           toast(`${fileName} 写入封面失败!`, 'short')

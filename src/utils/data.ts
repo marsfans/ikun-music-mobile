@@ -522,8 +522,8 @@ export const removeSyncHostHistory = async (index: number) => {
 }
 
 let userApis: LX.UserApi.UserApiInfo[] = []
-export const getUserApiList = async(): Promise<LX.UserApi.UserApiInfo[]> => {
-  userApis = await getData<LX.UserApi.UserApiInfo[]>(userApiPrefix) ?? []
+export const getUserApiList = async (): Promise<LX.UserApi.UserApiInfo[]> => {
+  userApis = (await getData<LX.UserApi.UserApiInfo[]>(userApiPrefix)) ?? []
 
   // 移除 1.7.1 及之前版本的脚本数据被意外存储到列表中的问题
   let updated = false
